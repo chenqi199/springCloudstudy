@@ -1,0 +1,21 @@
+apply plugin: 'application'
+description = 'spring stream'
+mainClassName = ''
+dependencies {
+    compile project(":spring-stream:spring-stream1")
+	compile project(":spring-stream:spring-stream2")
+}
+
+//bootRepackage {
+//    enabled = false
+//}
+jar {
+    manifest {
+        attributes(
+                "Implementation-Title": "Gradle",
+                "Implementation-Version": "${version}",
+                "Class-Path": '. config/'
+        )
+    }
+    exclude('config/')
+}

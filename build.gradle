@@ -1,0 +1,114 @@
+// 构建脚本
+buildscript {
+    ext {
+        springBootVersion = '2.1.5.RELEASE'
+    }
+    repositories {
+        maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+// 所有项目公用
+allprojects {
+
+    apply plugin: 'java'
+    apply plugin: 'eclipse'
+    apply plugin: 'maven'
+
+    group = 'com.zytech.cash'
+    version = '1.0-SNAPSHOT'
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+
+
+}
+
+// 所有子项目通用
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    
+    ext {
+        lemonVersion = '1.0.1-SNAPSHOT'
+        springBootVersion = '2.1.5.RELEASE'
+        mysqlVersion = '6.0.6'
+        springCloudVersion = 'Greenwich.SR1'
+        commonsLangVersion = '3.5'
+    }
+    configurations.all {
+        // check for updates every build
+        resolutionStrategy.cacheChangingModulesFor 10, 'seconds'
+        resolutionStrategy.cacheDynamicVersionsFor 60, 'seconds'
+       // exclude group: 'com.hisun', module: 'lemon-framework-rabbitmq'
+        //exclude group: 'org.springframework.amqp', module : 'spring-amqp'
+        //exclude group: 'org.springframework.amqp', module : 'spring-rabbit'
+        //exclude group: 'org.springframework.boot', module : 'spring-boot-starter-amqp'
+    }
+
+    dependencies {
+        compile('org.springframework.boot:spring-boot-starter-web')
+        testCompile('org.springframework.boot:spring-boot-starter-test')
+        compile ("org.apache.htrace:htrace-core:3.1.0-incubating")
+    }
+
+    repositories {
+        maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        }
+        dependencies {
+            // mysql
+//            dependency "mysql:mysql-connector-java:${mysqlVersion}"
+            // lemon
+
+           
+            dependency ("org.apache.commons:commons-lang3:${commonsLangVersion}")
+            // jedis
+//            dependency "redis.clients:jedis:2.9.0"
+            // fastjson
+            dependency "com.alibaba:fastjson:1.2.47"
+            // mybatis
+//            dependency 'org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.0'
+//            dependency 'com.auth0:java-jwt:3.2.0'
+            // ftp
+//            dependency 'fakepath:ftp4j:1.7.2'
+//            dependency 'com.jcraft:jsch:0.1.54'
+        }
+    }
+
+//    bootRepackage {
+//       enable=false
+//    }
+
+    jar {
+        from('src/main/resources') {
+            include '**/*.*'
+        }
+    }
+
+    //打包源代码
+    task sourcesJar(type: Jar) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+    artifacts {
+        archives jar
+        archives sourcesJar
+    }
+    uploadArchives {
+        repositories {
+           
+        }
+    }
+
+}
+
