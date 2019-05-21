@@ -5,6 +5,14 @@ public class Company {
     private String title;
     private String note;
 
+    @Override
+    public String toString() {
+        return "Company{" +
+                "title='" + title + '\'' +
+                ", note='" + note + '\'' +
+                '}';
+    }
+
     public String getTitle() {
         return title;
     }

@@ -12,6 +12,10 @@
 //import org.springframework.cloud.stream.annotation.Output;
 //import org.springframework.cloud.stream.annotation.StreamListener;
 //import org.springframework.cloud.stream.messaging.Processor;
+//import org.springframework.context.annotation.Bean;
+//import org.springframework.integration.annotation.InboundChannelAdapter;
+//import org.springframework.integration.annotation.Poller;
+//import org.springframework.integration.core.MessageSource;
 //import org.springframework.integration.support.MessageBuilder;
 //import org.springframework.messaging.Message;
 //import org.springframework.messaging.MessageChannel;
@@ -73,28 +77,28 @@
 //        System.out.println("字符串信息发送");
 //        output.send(MessageBuilder.withPayload("大家好").build());
 //
-////        // 使用 定义的接口的方式来发送
-////        System.out.println("新增产品发送");
-////        productProcessor.outputProductAdd().send(MessageBuilder.withPayload("添加一个产品").build());
+//        // 使用 定义的接口的方式来发送
+//        System.out.println("新增产品发送");
+//        productProcessor.outputProductAdd().send(MessageBuilder.withPayload("添加一个产品").build());
 //
-////        // 实体类型发送MQ
-////        System.out.println("订单实体发送");
-////        Order appleOrder = new Order();
-////        appleOrder.setOrderNum("0000001");
-////        appleOrder.setNum(10);
-////        appleOrder.setType("APPLE");
-////        appleOrder.setCreateAt(new Date());
-////        // 使用 注入 MessageChannel 方式发送
-////        outputOrder.send(MessageBuilder.withPayload(appleOrder).build());
+//        // 实体类型发送MQ
+//        System.out.println("订单实体发送");
+//        Order appleOrder = new Order();
+//        appleOrder.setOrderNum("0000001");
+//        appleOrder.setNum(10);
+//        appleOrder.setType("APPLE");
+//        appleOrder.setCreateAt(new Date());
+//        // 使用 注入 MessageChannel 方式发送
+//        outputOrder.send(MessageBuilder.withPayload(appleOrder).build());
 //    }
 //
 ////
-//////     定时轮询发送消息到 binding 为 Processor.OUTPUT
-////    @Bean
-////    @InboundChannelAdapter(value = Processor.OUTPUT, poller = @Poller(fixedDelay = "3000", maxMessagesPerPoll = "1"))
-////    public MessageSource<String> timerMessageSource() {
-////        return () -> MessageBuilder.withPayload("短消息-" + new Date()).build();
-////    }
+////     定时轮询发送消息到 binding 为 Processor.OUTPUT
+//    @Bean
+//    @InboundChannelAdapter(value = Processor.OUTPUT, poller = @Poller(fixedDelay = "3000", maxMessagesPerPoll = "1"))
+//    public MessageSource<String> timerMessageSource() {
+//        return () -> MessageBuilder.withPayload("短消息-" + new Date()).build();
+//    }
 //
 //
 //}

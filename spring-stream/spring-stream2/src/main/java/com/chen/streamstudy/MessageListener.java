@@ -9,8 +9,11 @@ import org.springframework.stereotype.Component;
 @Component
 @EnableBinding(Sink.class)
 public class MessageListener {
-    @StreamListener("testMessage")
-    public void input(Message<Company> message) {
+    @StreamListener(Sink.INPUT)
+    public void input(Message<String> message) {
         System.err.println("【*** 消息接收 ***】" + message.getPayload());
     }
 }
+
+
+
