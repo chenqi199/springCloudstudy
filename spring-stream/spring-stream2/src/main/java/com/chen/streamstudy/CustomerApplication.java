@@ -1,6 +1,8 @@
 package com.chen.streamstudy;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
@@ -30,8 +32,8 @@ import java.util.Date;
  */
 @SpringBootApplication
 @EnableBinding({Processor.class, OrderProcessor.class, ProductProcessor.class})
-public class StreamstudyApplication implements CommandLineRunner {
-
+public class CustomerApplication implements CommandLineRunner {
+    Logger log = LoggerFactory.getLogger(CustomerApplication.class);
     @Autowired
     @Qualifier("output")
     MessageChannel output;
@@ -45,45 +47,42 @@ public class StreamstudyApplication implements CommandLineRunner {
 
 
     public static void main(String[] args) {
-        SpringApplication.run(StreamstudyApplication.class);
+        SpringApplication.run(CustomerApplication.class);
     }
 
 
     // 监听 binding 为 Processor.INPUT 的消息
     @StreamListener(Processor.INPUT)
     public void input(Message<String> message) {
-        System.out.println("一般监听收到：" + message.getPayload());
+        log.info("一般监听收到：" + message.getPayload());
     }
 
     // 监听 binding 为 OrderIntf.INPUT_ORDER 的消息
     @StreamListener(OrderProcessor.INPUT_ORDER)
     public void inputOrder(Order order) {
-        System.out.println("=====订单监听收到=====");
-        System.out.println("订单编号：" + order.getOrderNum());
-        System.out.println("订单类型：" + order.getType());
-        System.out.println("订单数量：" + order.getNum());
-        System.out.println("=====订单处理完成=====");
+        log.info("=====订单监听收到=====\n 订单编号：{}\n 订单类型：{}\n 订单数量：{}\n====订单处理完成=====",
+                order.getOrderNum(), order.getType() , order.getNum());
     }
 
 
     @StreamListener(ProductProcessor.INPUT_PRODUCT_ADD)
     public void inputProductAdd(Message<String> message) {
-        System.out.println("新增产品监听收到：" + message.getPayload());
+        log.info("新增产品监听收到：" + message.getPayload());
     }
 
 
     @Override
     public void run(String... strings) throws Exception {
         // 字符串类型发送MQ
-        System.out.println("字符串信息发送");
+        log.info("字符串信息发送");
         output.send(MessageBuilder.withPayload("大家好").build());
 
         // 使用 定义的接口的方式来发送
-        System.out.println("新增产品发送");
+         log.info("新增产品发送");
         productProcessor.outputProductAdd().send(MessageBuilder.withPayload("添加一个产品").build());
 
         // 实体类型发送MQ
-        System.out.println("订单实体发送");
+         log.info("订单实体发送");
         Order appleOrder = new Order();
         appleOrder.setOrderNum("0000001");
         appleOrder.setNum(10);
@@ -93,7 +92,7 @@ public class StreamstudyApplication implements CommandLineRunner {
         outputOrder.send(MessageBuilder.withPayload(appleOrder).build());
     }
 
-//
+    //
 //     定时轮询发送消息到 binding 为 Processor.OUTPUT
     @Bean
     @InboundChannelAdapter(value = Processor.OUTPUT, poller = @Poller(fixedDelay = "3000", maxMessagesPerPoll = "1"))

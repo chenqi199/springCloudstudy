@@ -54,7 +54,7 @@ subprojects {
     dependencies {
         compile('org.springframework.boot:spring-boot-starter-web')
         testCompile('org.springframework.boot:spring-boot-starter-test')
-        compile ("org.apache.htrace:htrace-core:3.1.0-incubating")
+//        compile ("org.apache.htrace:htrace-core:3.1.0-incubating")
     }
 
     repositories {
