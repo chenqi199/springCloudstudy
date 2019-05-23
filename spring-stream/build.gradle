@@ -2,8 +2,9 @@ apply plugin: 'application'
 description = 'spring stream'
 mainClassName = ''
 dependencies {
-//    compile project(":spring-stream:spring-stream1")
-	compile project(":spring-stream:spring-stream2")
+    compile project(":spring-stream:spring-stream-common")
+	compile project(":spring-stream:spring-stream-producer")
+	compile project(":spring-stream:spring-stream-customer")
 }
 
 //bootRepackage {

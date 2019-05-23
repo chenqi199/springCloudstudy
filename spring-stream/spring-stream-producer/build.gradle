@@ -1,16 +1,11 @@
 apply plugin: 'application'
-description = 'spring-stream2'
+description = 'spring-stream-producer'
+
 
 
 
 dependencies {
-    implementation 'org.springframework.cloud:spring-cloud-stream'
-    runtimeOnly 'org.springframework.boot:spring-boot-devtools'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.cloud:spring-cloud-stream-test-support'
-//    implementation 'org.projectlombok:lombok:1.16.8'
-    implementation 'org.springframework.cloud:spring-cloud-stream-binder-rabbit'
-   
+    compile project(":spring-stream:spring-stream-common")
 }
 
 
@@ -28,7 +23,7 @@ jar {
     }
 //    exclude('config/')
 }
-
+//
 //bootRepackage {
 //    enabled = true
 //    mainClass = mainClassName
@@ -59,3 +54,6 @@ task dist(type: Zip,dependsOn: [release]) {
     }
 
 }
+
+
+

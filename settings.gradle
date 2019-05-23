@@ -1,4 +1,5 @@
 rootProject.name = 'springCloud-study'
 include 'spring-stream'
-//include 'spring-stream:spring-stream1'
-include 'spring-stream:spring-stream2'
+include 'spring-stream:spring-stream-common'
+include 'spring-stream:spring-stream-producer'
+include 'spring-stream:spring-stream-customer'
