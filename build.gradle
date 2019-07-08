@@ -15,10 +15,9 @@ buildscript {
 allprojects {
 
     apply plugin: 'java'
-    apply plugin: 'eclipse'
     apply plugin: 'maven'
-
-    group = 'com.zytech.cash'
+    apply plugin: 'eclipse'
+    group = 'com.chen'
     version = '1.0-SNAPSHOT'
 
     sourceCompatibility = 1.8
@@ -53,12 +52,38 @@ subprojects {
 
     dependencies {
         compile('org.springframework.boot:spring-boot-starter-web')
-        testCompile('org.springframework.boot:spring-boot-starter-test')
+        compile('org.springframework.boot:spring-boot-starter-actuator')
+        runtimeOnly('org.springframework.boot:spring-boot-devtools')
+        
+        
+        compile('org.springframework.cloud:spring-cloud-starter-netflix-eureka-client')
+        compile('org.springframework.cloud:spring-cloud-netflix-hystrix-stream')
+        compile('org.springframework.cloud:spring-cloud-starter-zipkin')
+        compile('org.springframework.cloud:spring-cloud-starter-bus-amqp')
+
+        compile 'org.projectlombok:lombok:1.18.8'
+//        runtime 'org.springframework.boot:spring-boot-devtools'
+        testCompile 'org.springframework.boot:spring-boot-starter-test'
+        testCompile 'com.h2database:h2:1.4.199'
+
 //        compile ("org.apache.htrace:htrace-core:3.1.0-incubating")
+        
     }
 
     repositories {
+        mavenLocal()
         maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+        maven {
+            url = 'https://repo.spring.io/libs-milestone'
+        }
+
+        maven {
+            url = 'https://oss.sonatype.org/content/repositories/snapshots/'
+        }
+
+        maven {
+            url = 'http://repo.maven.apache.org/maven2'
+        }
     }
 
     dependencyManagement {

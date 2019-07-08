@@ -1,0 +1,59 @@
+apply plugin: 'application'
+description = 'spring-eureka-client'
+
+
+
+dependencies {
+
+    compile 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile "junit:junit"
+
+}
+
+
+
+mainClassName = "org.springframework.boot.SpringApplication"
+
+jar {
+
+    manifest {
+        attributes(
+                "Implementation-Title": "Gradle",
+                "Implementation-Version": "${version}",
+                "Class-Path": '. config/'
+        )
+    }
+//    exclude('config/')
+}
+
+//bootRepackage {
+//    enabled = true
+//    mainClass = mainClassName
+//}
+
+task clearTarget(type:Delete){
+    delete 'build/target'
+    delete 'out'
+}
+
+task release(type: Copy,dependsOn: [clearTarget,build]) {
+    from('build/libs') {
+        include '*.jar'
+        exclude '*-sources.jar'
+    }
+//    from('src/main/resources') {
+//        include 'config/*'
+//    }
+    into ('build/target')
+
+    into('bin') {
+        from 'shell'
+    }
+}
+
+task dist(type: Zip,dependsOn: [release]) {
+    from('build/target/') {
+    }
+
+}

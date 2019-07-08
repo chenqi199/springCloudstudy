@@ -1,8 +1,10 @@
 apply plugin: 'application'
-description = 'springCloud eureka study'
+description = 'spring stream'
 mainClassName = ''
 dependencies {
-    
+    compile project(":eureka-study:spring-eurake-client")
+    compile project(":eureka-study:spring-eurake-service")
+   
 }
 
 //bootRepackage {
